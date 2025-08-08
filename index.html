@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USDF Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'usdf-blue': '#2563eb',
+                        'usdf-dark': '#0f172a',
+                        'usdf-gray': '#1e293b',
+                        'usdf-accent': '#3b82f6',
+                        'usdf-gold': '#fbbf24',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'title': ['Rajdhani', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        html { 
+            scroll-behavior: smooth;
+            --usdf-blue: #2563eb;
+            --usdf-dark: #0f172a;
+            --usdf-gray: #1e293b;
+            --usdf-accent: #3b82f6;
+            --usdf-gold: #fbbf24;
+        }
+        
+        .font-title {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #1e40af;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1d4ed8;
+        }
+        
+        /* Button styles */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--usdf-blue), #06b6d4);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: rgba(30, 41, 59, 0.5);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Section styling */
+        section {
+            padding: 5rem 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            section {
+                padding: 6rem 1rem;
+            }
+        }
+
+        /* Grid pattern for background */
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        /* Blob animation */
+        @keyframes blob {
+            0% {
+                transform: translate(0px, 0px) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+            100% {
+                transform: translate(0px, 0px) scale(1);
+            }
+        }
+        
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInLeft {
+            from { 
+                opacity: 0; 
+                transform: translateX(-30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+        
+        @keyframes slideInRight {
+            from { 
+                opacity: 0; 
+                transform: translateX(30px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(0); 
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        .animate-slide-in-left {
+            animation: slideInLeft 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+        
+        .animate-slide-in-right {
+            animation: slideInRight 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+
+        /* Initial state for animations */
+        [data-animate] {
+            opacity: 0;
+        }
+        
+        /* Hover effects */
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Card hover effect */
+        .card-hover {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(6, 182, 212, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+        }
+        
+        .card-hover:hover::before {
+            opacity: 1;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-usdf-dark text-white min-h-screen font-sans">
+    <!-- Navigation -->
+    <header class="fixed w-full bg-usdf-gray/90 backdrop-blur-sm z-50 border-b border-white/5">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="#" class="flex items-center space-x-2 group">
+                <div class="w-10 h-10 bg-usdf-blue rounded-lg flex items-center justify-center transform transition-transform duration-300 group-hover:rotate-12">
+                    <span class="text-white font-bold">USDF</span>
+                </div>
+                <span class="font-title font-bold text-xl hidden sm:block bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">US Defense Force</span>
+            </a>
+            <nav class="hidden md:flex space-x-1">
+                <a href="#home" class="relative px-4 py-2 rounded-lg hover:bg-white/5 transition-colors duration-300 group">
+                    <span class="relative z-10">Home</span>
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-usdf-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                </a>
+                <a href="#about" class="relative px-4 py-2 rounded-lg text-gray-300 hover:text-white transition-colors duration-300 group">
+                    <span class="relative z-10">About</span>
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-usdf-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                </a>
+                <a href="#portfolio" class="relative px-4 py-2 rounded-lg text-gray-300 hover:text-white transition-colors duration-300 group">
+                    <span class="relative z-10">Portfolio</span>
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-usdf-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                </a>
+                <a href="#contact" class="relative px-4 py-2 rounded-lg text-gray-300 hover:text-white transition-colors duration-300 group">
+                    <span class="relative z-10">Contact</span>
+                    <span class="absolute bottom-0 left-0 w-full h-0.5 bg-usdf-blue transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                </a>
+            </nav>
+            <button id="menu-button" class="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors duration-200 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative overflow-hidden bg-gradient-to-br from-usdf-darker via-usdf-dark to-gray-900 min-h-screen flex items-center">
+        <!-- Animated background elements -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNTQgM0g2djU0aDQ4eiIgc3Ryb2tlPSIjMWU0MGFmIiBzdHJva2Utd2lkdGg9IjAuNSIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==')] opacity-10"></div>
+            <!-- Animated grid overlay -->
+            <div class="absolute inset-0 bg-grid-pattern opacity-5"></div>
+            <!-- Animated gradient blob -->
+            <div class="absolute -top-64 -right-64 w-[600px] h-[600px] bg-gradient-to-r from-blue-600/20 to-cyan-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-64 -left-64 w-[600px] h-[600px] bg-gradient-to-r from-indigo-600/20 to-purple-500/20 rounded-full mix-blend-multiply filter blur-3xl animate-blob animation-delay-4000"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10 py-32">
+            <div class="max-w-4xl mx-auto text-center">
+                <div class="inline-block mb-6 px-4 py-2 bg-usdf-blue/10 border border-usdf-blue/20 rounded-full text-usdf-accent text-sm font-medium tracking-wider animate-fade-in-up">
+                    ELITE MILITARY OPERATIONS
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 font-title" data-animate>
+                    <span class="block animate-fade-in-up bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">UNITED STATES</span>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-usdf-blue to-cyan-400 animate-fade-in-up delay-100">DEFENSE FORCE</span>
+                </h1>
+                
+                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto opacity-0 animate-fade-in-up delay-200 leading-relaxed">
+                    Elite military operations in the Roblox universe. Join our ranks and become part of something greater than yourself.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row justify-center gap-4 opacity-0 animate-fade-in-up delay-300">
+                    <a href="#about" class="btn btn-primary group relative overflow-hidden">
+                        <span class="relative z-10 flex items-center">
+                            <span>Explore More</span>
+                            <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </span>
+                        <span class="absolute inset-0 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg transform -skew-x-12 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></span>
+                    </a>
+                    <a href="https://www.roblox.com/communities/9587350/Tower-Defense-Pr0s" target="_blank" rel="noopener noreferrer" class="btn btn-secondary group relative overflow-hidden">
+                        <span class="relative z-10 flex items-center">
+                            <span>Join Our Ranks</span>
+                            <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </span>
+                        <span class="absolute inset-0 bg-white/5 backdrop-blur-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-usdf-dark to-transparent"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-usdf-dark/95 relative">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNTQgM0g2djU0aDQ4eiIgc3Ryb2tlPSIjMWU0MGFmIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48L3N2Zz4=')] opacity-5"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div class="glass-effect p-8 rounded-2xl">
+                    <h3 class="text-2xl font-bold mb-4 flex items-center">
+                        <span class="text-usdf-blue mr-2">⚔️</span>
+                        Our Mission
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        To establish the most professional military simulation in Roblox, where strategy and teamwork create unmatched gameplay.
+                    </p>
+                    <div class="mt-6 space-y-4">
+                        <div class="flex items-start">
+                            <span class="text-usdf-gold mr-3 mt-1">•</span>
+                            <div>
+                                <h4 class="font-semibold">Excellence</h4>
+                                <p class="text-gray-500 text-sm">Highest standards in all operations</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <span class="text-usdf-gold mr-3 mt-1">•</span>
+                            <div>
+                                <h4 class="font-semibold">Discipline</h4>
+                                <p class="text-gray-500 text-sm">Commitment to structure</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-effect p-8 rounded-2xl">
+                    <h3 class="text-2xl font-bold mb-6">Leadership</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 bg-usdf-gray/30 rounded-lg">
+                            <div class="w-16 h-16 bg-usdf-blue/10 rounded-full flex items-center justify-center text-2xl mr-4">
+                                👑
+                            </div>
+                            <div>
+                                <h4 class="font-bold">High Command</h4>
+                                <p class="text-sm text-gray-400">Strategic Leadership</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-4 bg-usdf-gray/30 rounded-lg">
+                            <div class="w-16 h-16 bg-usdf-blue/10 rounded-full flex items-center justify-center text-2xl mr-4">
+                                ⭐
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Officer Corps</h4>
+                                <p class="text-sm text-gray-400">Tactical Operations</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 bg-gradient-to-b from-usdf-dark to-usdf-gray/30 relative">
+        <div class="absolute inset-0 opacity-5" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNTQgM0g2djU0aDQ4eiIgc3Ryb2tlPSIjMWU0MGFmIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiLz48L3N2Zz4=');"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <span class="text-usdf-blue font-medium mb-3 inline-block">// OUR OPERATIONS</span>
+                <h2 class="text-4xl md:text-6xl font-bold mb-6">Mission Portfolio</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-usdf-blue to-cyan-400 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Operation 1 -->
+                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-usdf-gray/30 to-usdf-dark/80 backdrop-blur-sm border border-white/5 hover:border-usdf-blue/30 transition-all duration-300 hover:-translate-y-1">
+                    <div class="h-48 bg-gradient-to-r from-usdf-blue/10 to-cyan-400/10 flex items-center justify-center text-6xl">
+                        🎯
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs font-medium px-3 py-1 bg-usdf-blue/10 text-usdf-blue rounded-full">Tactical</span>
+                        <h3 class="text-xl font-bold my-3">Operation Midnight</h3>
+                        <p class="text-gray-400 text-sm">Precision strike mission demonstrating tactical superiority.</p>
+                    </div>
+                </div>
+
+                <!-- Operation 2 -->
+                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-usdf-gray/30 to-usdf-dark/80 backdrop-blur-sm border border-white/5 hover:border-usdf-blue/30 transition-all duration-300 hover:-translate-y-1">
+                    <div class="h-48 bg-gradient-to-r from-amber-500/10 to-yellow-400/10 flex items-center justify-center text-6xl">
+                        🏆
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs font-medium px-3 py-1 bg-amber-500/10 text-amber-400 rounded-full">Achievement</span>
+                        <h3 class="text-xl font-bold my-3">Elite Division</h3>
+                        <p class="text-gray-400 text-sm">Top honors in quarterly readiness assessment.</p>
+                    </div>
+                </div>
+
+                <!-- Operation 3 -->
+                <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-usdf-gray/30 to-usdf-dark/80 backdrop-blur-sm border border-white/5 hover:border-usdf-blue/30 transition-all duration-300 hover:-translate-y-1">
+                    <div class="h-48 bg-gradient-to-r from-emerald-500/10 to-cyan-400/10 flex items-center justify-center text-6xl">
+                        🌐
+                    </div>
+                    <div class="p-6">
+                        <span class="text-xs font-medium px-3 py-1 bg-emerald-500/10 text-emerald-400 rounded-full">Community</span>
+                        <h3 class="text-xl font-bold my-3">Global Warfare</h3>
+                        <p class="text-gray-400 text-sm">Large-scale international training exercise.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="relative py-16 bg-gradient-to-r from-usdf-blue/5 to-cyan-400/5">
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNTQgM0g2djU0aDQ4eiIgc3Ryb2tlPSIjMWU0MGFmIiBzdHJva2Utd2lkdGg9IjAuNSIgZmlsbD0ibm9uZSIvPjwvc3ZnPg==')] opacity-20"></div>
+        </div>
+        <div class="container mx-auto px-4 relative z-10 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Enlist?</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-8">Join the ranks of elite soldiers and be part of something greater than yourself.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#" class="btn btn-primary group">
+                    <span class="relative z-10">Join Our Ranks</span>
+                    <span class="absolute inset-0 w-0 bg-gradient-to-r from-blue-600 to-cyan-500 transition-all duration-300 group-hover:w-full rounded-lg -z-0"></span>
+                </a>
+                <a href="#about" class="btn btn-secondary group">
+                    <span class="relative z-10">Learn More</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-usdf-dark/95 border-t border-white/5 pt-12 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-usdf-blue to-cyan-400 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold">USDF</span>
+                        </div>
+                        <span class="font-title font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">USDF</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Elite military operations in the Roblox universe. Professionalism, strategy, and teamwork at its finest.</p>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-semibold mb-4 text-lg">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-400 hover:text-white transition-colors text-sm">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors text-sm">About Us</a></li>
+                        <li><a href="#portfolio" class="text-gray-400 hover:text-white transition-colors text-sm">Operations</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors text-sm">Join Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-semibold mb-4 text-lg">Connect</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="https://discord.gg/ayppzEQjcC" target="_blank" rel="noopener noreferrer" class="group flex items-center text-gray-400 hover:text-white transition-colors text-sm">
+                                <span class="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.1 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.8 8.18 1.8 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.008.128 12.58 12.58 0 01-1.873.892.077.077 0 00-.041.1c.36.698.772 1.362 1.225 1.993a.076.076 0 00.085.028 19.84 19.84 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.158-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.158 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"></path>
+                                    </svg>
+                                </span>
+                                <span>Join Our Discord</span>
+                                <svg class="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.roblox.com/communities/9587350/Tower-Defense-Pr0s" target="_blank" rel="noopener noreferrer" class="group flex items-center text-gray-400 hover:text-white transition-colors text-sm">
+                                <span class="w-8 h-8 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center mr-3 group-hover:scale-110 transition-transform">
+                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12.498 23.974c.278 0 .545.225.545.522 0 .298-.244.521-.545.521h-.996c-.3 0-.545-.223-.545-.521 0-.297.244-.522.545-.522h.996zm-1.04-2.167c.3 0 .545.224.545.521 0 .298-.244.522-.545.522h-.977c-.3 0-.545-.224-.545-.522 0-.297.244-.521.545-.521h.977zm-1.263-2.167c.3 0 .545.224.545.521 0 .298-.244.522-.545.522h-1.43c-.3 0-.545-.224-.545-.522 0-.297.244-.521.545-.521h1.43zM6.42 17.29c.3 0 .545.224.545.522 0 .297-.244.52-.545.52H4.852c-.3 0-.545-.223-.545-.52 0-.298.244-.522.545-.522H6.42zm-.7-2.346c.3 0 .545.224.545.521 0 .298-.244.522-.545.522H4.15c-.3 0-.545-.224-.545-.522 0-.297.244-.521.545-.521h1.57zM3.2 12.8c0 .298-.244.521-.545.521H.545c-.3 0-.545-.223-.545-.521 0-.298.244-.522.545-.522h2.11c.3 0 .545.224.545.522zM3.2 10.4c0 .298-.244.522-.545.522H.545c-.3 0-.545-.224-.545-.522 0-.297.244-.521.545-.521h2.11c.3 0 .545.224.545.521zM3.2 8c0 .298-.244.522-.545.522H.545c-.3 0-.545-.224-.545-.522 0-.297.244-.521.545-.521h2.11c.3 0 .545.224.545.521zM3.2 5.6c0 .298-.244.522-.545.522H.545c-.3 0-.545-.224-.545-.522 0-.297.244-.521.545-.521h2.11c.3 0 .545.224.545.521zM3.2 3.2c0 .298-.244.522-.545.522H.545c-.3 0-.545-.224-.545-.522 0-.297.244-.521.545-.521h2.11c.3 0 .545.224.545.521zM5.6 1.6c0-.3.224-.545.522-.545.297 0 .521.244.521.545v1.6c0 .3-.224.545-.521.545-.298 0-.522-.244-.522-.545V1.6zm2.4 0c0-.3.224-.545.522-.545.297 0 .521.244.521.545v1.6c0 .3-.224.545-.521.545C8.224 3.745 8 3.5 8 3.2V1.6zm2.4 0c0-.3.224-.545.522-.545.297 0 .521.244.521.545v1.6c0 .3-.224.545-.521.545-.298 0-.522-.244-.522-.545V1.6zm2.4 0c0-.3.224-.545.522-.545.297 0 .521.244.521.545v1.6c0 .3-.224.545-.521.545-.298 0-.522-.244-.522-.545V1.6zm2.4 0c0-.3.224-.545.522-.545.297 0 .521.244.521.545v1.6c0 .3-.224.545-.521.545-.298 0-.522-.244-.522-.545V1.6zm2.4 0c0-.3.224-.545.522-.545.297 0 .521.244.521.545v1.6c0 .3-.224.545-.521.545-.298 0-.522-.244-.522-.545V1.6zm2.4 0c0-.3.224-.545.522-.545.297 0 .521.244.521.545v1.6c0 .3-.224.545-.521.545-.298 0-.522-.244-.522-.545V1.6z"></path>
+                                    </svg>
+                                </span>
+                                <span>Roblox Group</span>
+                                <svg class="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                                </svg>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-white font-semibold mb-4 text-lg">Newsletter</h3>
+                    <p class="text-gray-400 text-sm mb-4">Subscribe for mission updates and events.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email" class="bg-usdf-gray/50 text-white text-sm rounded-l-lg px-4 py-2.5 w-full focus:outline-none focus:ring-2 focus:ring-usdf-blue">
+                        <button class="bg-usdf-blue hover:bg-blue-600 text-white px-4 rounded-r-lg transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/5 pt-8 mt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm">© 2025 USDF - United States Defense Force. All rights reserved.</p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors">
+                        <span class="sr-only">Privacy Policy</span>
+                        Privacy
+                    </a>
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors">
+                        <span class="sr-only">Terms</span>
+                        Terms
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" class="fixed bottom-8 right-8 w-12 h-12 bg-usdf-blue/80 hover:bg-usdf-blue text-white rounded-full flex items-center justify-center shadow-lg transition-all duration-300 opacity-0 invisible">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <!-- Mobile Menu (initially hidden) -->
+    <div id="mobile-menu" class="fixed inset-0 bg-usdf-dark/95 backdrop-blur-lg z-40 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300">
+        <nav class="text-center space-y-8 transform -translate-y-4 opacity-0 transition-all duration-300">
+            <a href="#home" class="block text-2xl font-medium text-white hover:text-usdf-accent transition-colors duration-300 py-2">Home</a>
+            <a href="#about" class="block text-2xl font-medium text-gray-300 hover:text-white transition-colors duration-300 py-2">About</a>
+            <a href="#portfolio" class="block text-2xl font-medium text-gray-300 hover:text-white transition-colors duration-300 py-2">Portfolio</a>
+            <a href="#contact" class="block text-2xl font-medium text-gray-300 hover:text-white transition-colors duration-300 py-2">Contact</a>
+        </nav>
+    </div>
+
+    <script>
+        // Mobile menu toggle with animation
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileNav = mobileMenu.querySelector('nav');
+        let isMenuOpen = false;
+
+        menuButton.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            
+            if (isMenuOpen) {
+                // Open menu
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+                mobileNav.classList.remove('opacity-0', '-translate-y-4');
+                mobileNav.classList.add('opacity-100', 'translate-y-0');
+                document.body.style.overflow = 'hidden';
+                
+                // Update menu icon to X
+                menuButton.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                `;
+            } else {
+                // Close menu
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                mobileNav.classList.add('opacity-0', '-translate-y-4');
+                mobileNav.classList.remove('opacity-100', 'translate-y-0');
+                document.body.style.overflow = '';
+                
+                // Update menu icon to hamburger
+                menuButton.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                `;
+            }
+        });
+
+        // Close menu when clicking on a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                mobileNav.classList.add('opacity-0', '-translate-y-4');
+                mobileNav.classList.remove('opacity-100', 'translate-y-0');
+                document.body.style.overflow = '';
+                
+                // Update menu icon to hamburger
+                menuButton.innerHTML = `
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                `;
+            });
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Scroll to top button
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.remove('opacity-0', 'invisible');
+                scrollToTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                scrollToTopBtn.classList.add('opacity-0', 'invisible');
+                scrollToTopBtn.classList.remove('opacity-100', 'visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('[data-animate]');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const animation = element.getAttribute('data-animate') || 'fadeInUp';
+                        const delay = element.getAttribute('data-delay') || '0';
+                        
+                        element.style.animation = `${animation} 0.6s ease-out ${delay}ms forwards`;
+                        observer.unobserve(element);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        };
+
+        // Initialize animations when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate hero section immediately
+            const heroElements = document.querySelectorAll('#home [data-animate]');
+            heroElements.forEach((el, index) => {
+                el.style.animation = `fadeInUp 0.6s ease-out ${index * 100}ms forwards`;
+            });
+
+            // Set up scroll animations for other sections
+            animateOnScroll();
+        });
+    </script>
+</body>
+</html>
